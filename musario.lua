@@ -41,7 +41,7 @@ Save = function(filename)
    print("Saving to file \"" .. filename .. "\"")
    f = io.open("savefiles/" .. filename, "w")
    Save_data("data", data)
---   Save_data("commands", commands)
+   Save_data("commands", commands)
    f:close()
 end
 
@@ -59,6 +59,15 @@ New_game = function(filename)
    dofile(filename .. "/start.lua")
 end
 
+function exportstring( s )
+   s = string.format( "%q",s )
+   -- to replace
+   s = string.gsub( s,"\\\n","\\n" )
+   s = string.gsub( s,"\r","\\r" )
+   s = string.gsub( s,string.char(26),"\"..string.char(26)..\"" )
+   return s
+end
+
 function basicSerialize (o)
 	if type(o) == "number" then
 		return tostring(o)
@@ -74,6 +83,8 @@ function Save_data (name, value, saved)
 	if type(value) == "number" or type(value) == "string" then
 	--	io.write(basicSerialize(value), "\n")
 		f:write(basicSerialize(value), "\n")
+	elseif type(value) == "function" then
+		f:write("loadstring("..exportstring(string.dump( value ))..")")
 	elseif type(value) == "table" then
 		if saved[value] then    -- value already saved?
 		--	io.write(saved[value], "\n")  -- use its previous name
