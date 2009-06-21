@@ -18,7 +18,7 @@ main = function()
 
 		elseif cmd == "commands" then
 		   for k, v in pairs(commands) do
-		      print(k)
+		      print(v)
 		   end
 
 		elseif cmd:sub(1, 4) == "save" then
@@ -38,9 +38,9 @@ main = function()
 					break
 				end
 			end
-		   if not used and commands[cmd] then
-		      commands[cmd]()
-		   end
+--		   if not used and commands[cmd] then
+--		      commands[cmd]()
+--		   end
 		end
 	end
 end
@@ -50,6 +50,7 @@ Save = function(filename)
    f = io.open("savefiles/" .. filename, "w")
    Save_data("data", data)
    Save_data("commands", commands)
+   Save_data("command_handlers", command_handlers)
    f:close()
 end
 
