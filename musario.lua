@@ -1,5 +1,6 @@
 main = function()
 	commands = {}
+	command_handlers = {}
 	data = {}
 
 	while true do
@@ -30,7 +31,14 @@ main = function()
 		   New_game(cmd:sub(10))
 
 		else
-		   if commands[cmd] then
+			used = false
+			for k, v in pairs(command_handlers) do
+				used = v(cmd)
+				if used then
+					break
+				end
+			end
+		   if not used and commands[cmd] then
 		      commands[cmd]()
 		   end
 		end
