@@ -20,6 +20,9 @@ main = function()
 		   for k, v in pairs(commands) do
 		      print(v)
 		   end
+			for k, v in pairs(command_handlers) do
+				v(cmd)
+			end
 
 		elseif cmd:sub(1, 4) == "save" then
 		   Save(cmd:sub(6))
