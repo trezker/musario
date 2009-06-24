@@ -67,6 +67,35 @@ end
 
 data.fight_cmd_handler = function(cmd)
 	if cmd:sub(1,5) == "fight" then
+		killed_monsters = {}
+		surviving_monsters = {}
+		for k, v in pairs(room.monsters) do
+			player_attack = math.random(6) + data.player.level
+			monster_attack = math.random(6) + v.level
+			if player_attack > monster_attack then
+				print("You kill the monster")
+				table.insert(killed_monsters, v)
+			else
+				print("The monster bested you")
+				data.player.health = data.player.health - 1
+				table.insert(surviving_monsters, v)
+			end
+			room.monsters = surviving_monsters
+			--Some monster survived, player must flee
+			if table.getn(room.monsters) > 0 then
+				while not can_move(cmd) do
+					print("You must flee from the remaining monsters. Type n, s, w or e")
+					cmd = io.stdin:read'*l'
+				end
+				command_handlers["fight"] = nil
+				command_handlers["explore"] = data.explore_cmd_handler
+				open_door(cmd)
+			else
+				print("Well done, you cleared the room.")
+				command_handlers["fight"] = nil
+				command_handlers["explore"] = data.explore_cmd_handler
+			end
+		end
 	end
 	if cmd:sub(1,4) == "flee" then
 		if not can_move(cmd:sub(6)) then
