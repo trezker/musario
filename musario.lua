@@ -1,5 +1,4 @@
 main = function()
-	commands = {}
 	command_handlers = {}
 	data = {}
 
@@ -17,9 +16,6 @@ main = function()
 		   print("Type quit, exit or q to quit")
 
 		elseif cmd == "commands" then
-		   for k, v in pairs(commands) do
-		      print(v)
-		   end
 			for k, v in pairs(command_handlers) do
 				v(cmd)
 			end
@@ -41,9 +37,6 @@ main = function()
 					break
 				end
 			end
---		   if not used and commands[cmd] then
---		      commands[cmd]()
---		   end
 		end
 	end
 end
@@ -52,7 +45,6 @@ Save = function(filename)
    print("Saving to file \"" .. filename .. "\"")
    f = io.open("savefiles/" .. filename, "w")
    Save_data("data", data)
-   Save_data("commands", commands)
    Save_data("command_handlers", command_handlers)
    f:close()
 end
@@ -60,14 +52,14 @@ end
 Load = function(filename)
    print("Loading file \"" .. filename .. "\"")
    data = {}
-   commands = {}
+	command_handlers = {}
    dofile("savefiles/" .. filename)
 end
 
 New_game = function(filename)
    print("Starting game \"" .. filename .. "\"")
    data = {}
-   commands = {}
+	command_handlers = {}
    dofile(filename .. "/start.lua")
 end
 

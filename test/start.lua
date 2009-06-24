@@ -1,5 +1,26 @@
 print("Welcome to the test game")
 
+can_move = function(dirstring)
+	if not data.rooms then
+--		print("You open the door and take your first step into the unknown, unless you played this game before.")
+--		data.rooms = {}
+--		data.playerx = 1
+--		data.playery = 1
+	elseif dirstring == "n" then
+--		data.playery = data.playery+1
+	elseif dirstring == "s" then
+--		data.playery = data.playery-1
+	elseif dirstring == "e" then
+--		data.playerx = data.playerx+1
+	elseif dirstring == "w" then
+--		data.playerx = data.playerx-1
+	else
+		return false
+	end
+	return true
+end
+
+
 open_door = function(dirstring)
 	if not data.rooms then
 		print("You open the door and take your first step into the unknown, unless you played this game before.")
@@ -15,7 +36,7 @@ open_door = function(dirstring)
 	elseif dirstring == "w" then
 		data.playerx = data.playerx-1
 	else
-		print("Usage: go [n,s,e,w]")
+		print("Illegal move")
 		return
 	end
 
@@ -43,7 +64,6 @@ end
 
 data.fight_cmd_handler = function(cmd)
 	if cmd:sub(1,5) == "fight" then
-
 	end
 	if cmd:sub(1,4) == "flee" then
 		print("You run away to face this at a better time.")
@@ -58,7 +78,11 @@ end
 
 data.explore_cmd_handler = function(cmd)
 	if cmd:sub(1,2) == "go" then
-		open_door(cmd:sub(4))
+		if not can_move(cmd:sub(4)) then
+			print("Usage: go [n,s,e,w]")
+		else
+			open_door(cmd:sub(4))
+		end
 	end
 	if cmd == "commands" then
 		print("go")
