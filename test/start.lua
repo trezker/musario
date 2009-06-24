@@ -76,9 +76,9 @@ data.fight_cmd_handler = function(cmd)
 				print("But you take a hit from the monster on your way out.")
 				data.player.health = data.player.health - 1
 			end
-			open_door(cmd:sub(6))
 			command_handlers["fight"] = nil
 			command_handlers["explore"] = data.explore_cmd_handler
+			open_door(cmd:sub(6))
 		end
 	end
 	if cmd == "commands" then
