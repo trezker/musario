@@ -56,11 +56,12 @@ Load = function(filename)
    dofile("savefiles/" .. filename)
 end
 
-New_game = function(filename)
-   print("Starting game \"" .. filename .. "\"")
+New_game = function(game_folder)
+   print("Starting game \"" .. game_folder .. "\"")
    data = {}
 	command_handlers = {}
-   dofile(filename .. "/start.lua")
+	data.game_folder = game_folder .. "/"
+   dofile(data.game_folder .. "start.lua")
 end
 
 function exportstring( s )

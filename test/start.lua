@@ -1,5 +1,7 @@
 print("Welcome to the test game")
 
+dofile(data.game_folder .. "treasures.lua")
+
 data.rooms = {}
 data.rooms[0] = {}
 data.rooms[0][0] = {}
