@@ -25,6 +25,8 @@ open_door = function(dirstring)
 	if not data.rooms then
 		print("You open the door and take your first step into the unknown, unless you played this game before.")
 		data.rooms = {}
+		data.player = {}
+		data.player.health = 4
 		data.playerx = 1
 		data.playery = 1
 	elseif dirstring == "n" then
@@ -66,10 +68,18 @@ data.fight_cmd_handler = function(cmd)
 	if cmd:sub(1,5) == "fight" then
 	end
 	if cmd:sub(1,4) == "flee" then
-		print("You run away to face this at a better time.")
-		open_door(cmd:sub(6))
-		command_handlers["fight"] = nil
-		command_handlers["explore"] = data.explore_cmd_handler
+		if not can_move(cmd:sub(6)) then
+			print("Usage: flee [n,s,e,w]")
+		else
+			print("You run away to face this at a better time.")
+			if math.random(6) >= 5 then
+				print("But you take a hit from the monster on your way out.")
+				data.player.health = data.player.health - 1
+			end
+			open_door(cmd:sub(6))
+			command_handlers["fight"] = nil
+			command_handlers["explore"] = data.explore_cmd_handler
+		end
 	end
 	if cmd == "commands" then
 		print("fight, flee")
