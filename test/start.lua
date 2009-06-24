@@ -26,17 +26,18 @@ open_door = function(dirstring)
 		print("You open the door and take your first step into the unknown, unless you played this game before.")
 		data.rooms = {}
 		data.player = {}
+		data.player.level = 1
 		data.player.health = 4
-		data.playerx = 1
-		data.playery = 1
+		data.player.x = 1
+		data.player.y = 1
 	elseif dirstring == "n" then
-		data.playery = data.playery+1
+		data.player.y = data.player.y+1
 	elseif dirstring == "s" then
-		data.playery = data.playery-1
+		data.player.y = data.player.y-1
 	elseif dirstring == "e" then
-		data.playerx = data.playerx+1
+		data.player.x = data.player.x+1
 	elseif dirstring == "w" then
-		data.playerx = data.playerx-1
+		data.player.x = data.player.x-1
 	else
 		print("Illegal move")
 		return
@@ -44,17 +45,17 @@ open_door = function(dirstring)
 
 
 	if not data.rooms[data.playerx] then
-		data.rooms[data.playerx] = {}
+		data.rooms[data.player.x] = {}
 	end
-	if not data.rooms[data.playerx][data.playery] then
+	if not data.rooms[data.player.x][data.player.y] then
 		print("You explore a new room")
-		data.rooms[data.playerx][data.playery] = {}
-		room = data.rooms[data.playerx][data.playery]
+		data.rooms[data.player.x][data.player.y] = {}
+		room = data.rooms[data.player.x][data.player.y]
 		room.monsters = {}
 		monster = {level=math.random(20)}
 		table.insert(room.monsters, monster)
 	end
-	room = data.rooms[data.playerx][data.playery]
+	room = data.rooms[data.player.x][data.player.y]
 	for k, v in pairs(room.monsters) do
 		print("You face a level " .. v.level .. " monster.")
 	end
