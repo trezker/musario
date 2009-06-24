@@ -1,5 +1,17 @@
 print("Welcome to the test game")
 
+data.rooms = {}
+data.rooms[0] = {}
+data.rooms[0][0] = {}
+data.rooms[0][0].monsters = {}
+
+
+data.player = {}
+data.player.level = 1
+data.player.health = 4
+data.player.x = 0
+data.player.y = 0
+
 can_move = function(dirstring)
 	if not data.rooms then
 --		print("You open the door and take your first step into the unknown, unless you played this game before.")
@@ -44,7 +56,7 @@ open_door = function(dirstring)
 	end
 
 
-	if not data.rooms[data.playerx] then
+	if not data.rooms[data.player.x] then
 		data.rooms[data.player.x] = {}
 	end
 	if not data.rooms[data.player.x][data.player.y] then
@@ -75,14 +87,15 @@ data.fight_cmd_handler = function(cmd)
 			if player_attack > monster_attack then
 				print("You kill the monster")
 				table.insert(killed_monsters, v)
+				data.player.level = data.player.level + 1
 			else
 				print("The monster bested you")
 				data.player.health = data.player.health - 1
 				table.insert(surviving_monsters, v)
 			end
 			room.monsters = surviving_monsters
-			--Some monster survived, player must flee
 			if table.getn(room.monsters) > 0 then
+				--Some monster survived, player must flee
 				while not can_move(cmd) do
 					print("You must flee from the remaining monsters. Type n, s, w or e")
 					cmd = io.stdin:read'*l'
@@ -129,5 +142,16 @@ data.explore_cmd_handler = function(cmd)
 	end
 end
 
+data.info_cmd_handler = function(cmd)
+	if cmd == "level" then
+		print("Your level is " .. data.player.level)
+	elseif cmd == "position" then
+		print("This room is at " .. data.player.x .. ":" .. data.player.y)
+	elseif cmd == "health" then
+		print("Your health is " .. data.player.health)
+	end
+end
+
+command_handlers["info"] = data.info_cmd_handler
 command_handlers["explore"] = data.explore_cmd_handler
 
