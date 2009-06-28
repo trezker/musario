@@ -14,6 +14,34 @@ data.player.level = 1
 data.player.health = 4
 data.player.x = 0
 data.player.y = 0
+data.player.treasures = {}
+data.player.deus = {}
+
+print("You start with these cards on hand")
+for n = 1,3 do
+	num_available = table.getn(data.treasures)
+	if num_available == 0 then
+		print("Treasures out of cards")
+	else
+		c = math.random(num_available)
+		card = data.treasures[c]
+		table.insert(data.player.treasures, data.treasures[c])
+		table.remove(data.treasures, c)
+		print(card.name)
+	end
+end
+for n = 1,3 do
+	num_available = table.getn(data.deus)
+	if num_available == 0 then
+		print("Deus out of cards")
+	else
+		c = math.random(num_available)
+		card = data.deus[c]
+		table.insert(data.player.deus, data.deus[c])
+		table.remove(data.deus, c)
+		print(card.name)
+	end
+end
 
 can_move = function(dirstring)
 	if not data.rooms then

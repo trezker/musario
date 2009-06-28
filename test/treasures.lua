@@ -43,6 +43,12 @@ data.treasures = {
 		modifier = 1,
 		value = 100,
 		position = "hands"
+	},
+	{
+		name = "Chain mail",
+		modifier = 2,
+		value = 200,
+		position = "torso"
 	}
 }
 
